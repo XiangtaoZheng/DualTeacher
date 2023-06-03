@@ -29,30 +29,49 @@ make install
 - Execute the following command to generate data set splits:
 ```shell script
 # YOUR_DATA/
-#   DIOR/
-#     dior_annotations/
+#   dior/
+#     dior_annotations.json    # only ship instances
 #     images/
-#   HRSID/
+#   hrsid/
 #     annotations/
 #     images/
-#   SSDD/
+#   ssdd/
 #     annotations/
 #     JPEGImages/
+#   dior_hrsid/
+#     annotations/             # labeled optical images and few labeled SAR images
+#     images/
 ln -s ${YOUR_DATA} data
 bash tools/dataset/semi_hrsid.sh
 bash tools/dataset/semi_ssdd.sh
 ```
+- ADD HRSIDDataset to MMDetection, similar to COCODataset
 
 ### Training
 ```shell script
 # num_SAR_images: number of labeled SAR images for training
 # num_gpus: number of gpus for training
-bash tools/dist_train_dual_teacher_partially_hrsid.sh semi ${fold} ${num_SAR_images} ${num_gpus}
+bash tools/dist_train_ship_pretrain.sh dior 0 100 ${num_gpus}
+for fold in 1,2,3,4,5;
+do
+    bash tools/dist_train_ship_pretrain.sh dior_hrsid ${fold} ${num_SAR_images} ${num_gpus}
+    bash tools/dist_train_dual_teacher_partially_hrsid.sh semi ${fold} ${num_SAR_images} ${num_gpus}
+done 
 ```
 ### Evaluation
 ```shell script
 python tools/test.py <config_file_path> <model_file_path> --eval bbox --work-dir <save_dir>
 ```
 
-### Acknowledgement
+## Cite
+```
+@article{zheng2023dual,
+ title={Dual Teacher: A Semi-Supervised Co-Training Framework for Cross-Domain Ship Detection},
+ author={Zheng, Xiangtao and Cui, Haowen and Xu, Chujie and Lu, Xiaoqiang},
+ journal={IEEE Transactions on Geoscience and Remote Sensing},
+ year={2023}
+ }
+```
+
+## Acknowledgement
 A large part of the codes are borrowed from [SoftTeacher](https://github.com/microsoft/SoftTeacher). Thanks for the excellent work!
