@@ -66,11 +66,14 @@ python tools/test.py <config_file_path> <model_file_path> --eval bbox --work-dir
 ## Cite
 ```
 @article{zheng2023dual,
- title={Dual Teacher: A Semi-Supervised Co-Training Framework for Cross-Domain Ship Detection},
- author={Zheng, Xiangtao and Cui, Haowen and Xu, Chujie and Lu, Xiaoqiang},
- journal={IEEE Transactions on Geoscience and Remote Sensing},
- year={2023}
- }
+  author={Zheng, Xiangtao and Cui, Haowen and Xu, Chujie and Lu, Xiaoqiang},
+  journal={IEEE Transactions on Geoscience and Remote Sensing}, 
+  title={Dual Teacher: A Semisupervised Cotraining Framework for Cross-Domain Ship Detection}, 
+  year={2023},
+  volume={61},
+  number={},
+  pages={1-12},
+  doi={10.1109/TGRS.2023.3287863}}
 ```
 
 ## Acknowledgement
